@@ -1,0 +1,77 @@
+[
+  {
+    "id": 1,
+    "code": "package main\n\nimport (\n    \"net/http\"\n    \"fmt\"\n)\n\nfunc helloHandler(w http.ResponseWriter, r *http.Request) {\n    fmt.Fprintf(w, \"Hello, World!\")\n}\n\nfunc main() {\n    http.HandleFunc(\"/hello\", helloHandler)\n    http.ListenAndServe(\":8080\", nil)\n}",
+    "language": "go"
+  },
+  {
+    "id": 2,
+    "code": "func worker(id int, jobs <-chan int, results chan<- int) {\n    for job := range jobs {\n        fmt.Printf(\"Worker %d started job %d\\n\", id, job)\n        results <- job * 2\n        fmt.Printf(\"Worker %d finished job %d\\n\", id, job)\n    }\n}",
+    "language": "go"
+  },
+  {
+    "id": 3,
+    "code": "type Result[T any] struct {\n    Value T\n    Error error\n}\n\nfunc SafeDivide(a, b float64) Result[float64] {\n    if b == 0 {\n        return Result[float64]{Error: errors.New(\"division by zero\")}\n    }\n    return Result[float64]{Value: a / b}\n}",
+    "language": "go"
+  },
+  {
+    "id": 4,
+    "code": "func QuickSort(arr []int) []int {\n    if len(arr) <= 1 {\n        return arr\n    }\n    pivot := arr[len(arr)/2]\n    left := []int{}\n    middle := []int{}\n    right := []int{}\n    for _, v := range arr {\n        if v < pivot {\n            left = append(left, v)\n        } else if v == pivot {\n            middle = append(middle, v)\n        } else {\n            right = append(right, v)\n        }\n    }\n    return append(append(QuickSort(left), middle...), QuickSort(right)...)\n}",
+    "language": "go"
+  },
+  {
+    "id": 5,
+    "code": "type Pool struct {\n    workers int\n    jobs    chan func()\n    wg      sync.WaitGroup\n}\n\nfunc NewPool(workers int) *Pool {\n    p := &Pool{\n        workers: workers,\n        jobs:    make(chan func(), 100),\n    }\n    for i := 0; i < workers; i++ {\n        go p.worker()\n    }\n    return p\n}\n\nfunc (p *Pool) worker() {\n    for job := range p.jobs {\n        job()\n        p.wg.Done()\n    }\n}",
+    "language": "go"
+  },
+  {
+    "id": 6,
+    "code": "func BinarySearch(arr []int, target int) int {\n    left, right := 0, len(arr)-1\n    for left <= right {\n        mid := left + (right-left)/2\n        if arr[mid] == target {\n            return mid\n        } else if arr[mid] < target {\n            left = mid + 1\n        } else {\n            right = mid - 1\n        }\n    }\n    return -1\n}",
+    "language": "go"
+  },
+  {
+    "id": 7,
+    "code": "type Option[T any] struct {\n    value T\n    valid bool\n}\n\nfunc Some[T any](v T) Option[T] {\n    return Option[T]{value: v, valid: true}\n}\n\nfunc None[T any]() Option[T] {\n    return Option[T]{valid: false}\n}\n\nfunc (o Option[T]) Get() (T, bool) {\n    return o.value, o.valid\n}",
+    "language": "go"
+  },
+  {
+    "id": 8,
+    "code": "func MergeSort(arr []int) []int {\n    if len(arr) <= 1 {\n        return arr\n    }\n    mid := len(arr) / 2\n    left := MergeSort(arr[:mid])\n    right := MergeSort(arr[mid:])\n    return merge(left, right)\n}\n\nfunc merge(left, right []int) []int {\n    result := make([]int, 0, len(left)+len(right))\n    i, j := 0, 0\n    for i < len(left) && j < len(right) {\n        if left[i] <= right[j] {\n            result = append(result, left[i])\n            i++\n        } else {\n            result = append(result, right[j])\n            j++\n        }\n    }\n    return append(result, append(left[i:], right[j:]...)...)\n}",
+    "language": "go"
+  },
+  {
+    "id": 9,
+    "code": "type TreeNode struct {\n    Val   int\n    Left  *TreeNode\n    Right *TreeNode\n}\n\nfunc InorderTraversal(root *TreeNode) []int {\n    result := []int{}\n    var traverse func(*TreeNode)\n    traverse = func(node *TreeNode) {\n        if node != nil {\n            traverse(node.Left)\n            result = append(result, node.Val)\n            traverse(node.Right)\n        }\n    }\n    traverse(root)\n    return result\n}",
+    "language": "go"
+  },
+  {
+    "id": 10,
+    "code": "func Memoize(fn func(int) int) func(int) int {\n    cache := make(map[int]int)\n    return func(n int) int {\n        if val, ok := cache[n]; ok {\n            return val\n        }\n        result := fn(n)\n        cache[n] = result\n        return result\n    }\n}",
+    "language": "go"
+  },
+  {
+    "id": 11,
+    "code": "type Middleware func(http.Handler) http.Handler\n\nfunc LoggingMiddleware(next http.Handler) http.Handler {\n    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {\n        start := time.Now()\n        next.ServeHTTP(w, r)\n        log.Printf(\"%s %s %v\", r.Method, r.URL.Path, time.Since(start))\n    })\n}",
+    "language": "go"
+  },
+  {
+    "id": 12,
+    "code": "func Retry[T any](fn func() (T, error), maxAttempts int, delay time.Duration) (T, error) {\n    var lastErr error\n    var result T\n    for i := 0; i < maxAttempts; i++ {\n        result, lastErr = fn()\n        if lastErr == nil {\n            return result, nil\n        }\n        time.Sleep(delay * time.Duration(i+1))\n    }\n    return result, lastErr\n}",
+    "language": "go"
+  },
+  {
+    "id": 13,
+    "code": "func Flatten[T any](nested [][]T) []T {\n    result := make([]T, 0)\n    for _, slice := range nested {\n        result = append(result, slice...)\n    }\n    return result\n}",
+    "language": "go"
+  },
+  {
+    "id": 14,
+    "code": "type Iterator[T any] interface {\n    Next() bool\n    Value() T\n}\n\ntype SliceIterator[T any] struct {\n    data  []T\n    index int\n}\n\nfunc (it *SliceIterator[T]) Next() bool {\n    return it.index < len(it.data)\n}\n\nfunc (it *SliceIterator[T]) Value() T {\n    val := it.data[it.index]\n    it.index++\n    return val\n}",
+    "language": "go"
+  },
+  {
+    "id": 15,
+    "code": "func Debounce[T any](fn func(T), delay time.Duration) func(T) {\n    var timer *time.Timer\n    return func(arg T) {\n        if timer != nil {\n            timer.Stop()\n        }\n        timer = time.AfterFunc(delay, func() {\n            fn(arg)\n        })\n    }\n}",
+    "language": "go"
+  }
+]

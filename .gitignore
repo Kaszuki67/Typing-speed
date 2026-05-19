@@ -1,0 +1,40 @@
+```
+# Dependencies
+go.sum
+go.mod
+
+# Build artifacts
+*.o
+*.a
+*.so
+*.dll
+*.exe
+*.out
+*.obj
+
+# Go-specific
+*.test
+*.prof
+cover.out
+coverage/
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System
+.DS_Store
+Thumbs.db
+```

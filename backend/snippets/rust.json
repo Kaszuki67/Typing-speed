@@ -1,0 +1,77 @@
+[
+  {
+    "id": 1,
+    "code": "fn divide(a: i32, b: i32) -> Result<i32, String> {\n    if b == 0 {\n        Err(String::from(\"Division by zero\"))\n    } else {\n        Ok(a / b)\n    }\n}\n\nfn main() {\n    match divide(10, 2) {\n        Ok(result) => println!(\"Result: {}\", result),\n        Err(e) => println!(\"Error: {}\", e),\n    }\n}",
+    "language": "rust"
+  },
+  {
+    "id": 2,
+    "code": "fn quicksort<T: Ord + Copy>(arr: &mut [T]) {\n    let len = arr.len();\n    if len <= 1 { return; }\n    let pivot = arr[len / 2];\n    let mut left = 0;\n    let mut right = len - 1;\n    while left < right {\n        while arr[left] < pivot { left += 1; }\n        while arr[right] > pivot { right -= 1; }\n        if left < right {\n            arr.swap(left, right);\n            left += 1;\n            right -= 1;\n        }\n    }\n    quicksort(&mut arr[..left]);\n    quicksort(&mut arr[left..]);\n}",
+    "language": "rust"
+  },
+  {
+    "id": 3,
+    "code": "struct IteratorChain<I: Iterator> {\n    inner: I,\n}\n\nimpl<I: Iterator> IteratorChain<I> {\n    fn new(iter: I) -> Self {\n        IteratorChain { inner: iter }\n    }\n}\n\nimpl<I: Iterator> Iterator for IteratorChain<I> {\n    type Item = I::Item;\n    fn next(&mut self) -> Option<Self::Item> {\n        self.inner.next()\n    }\n}",
+    "language": "rust"
+  },
+  {
+    "id": 4,
+    "code": "fn fibonacci(n: u32) -> u64 {\n    match n {\n        0 => 0,\n        1 => 1,\n        _ => {\n            let (mut a, mut b) = (0u64, 1u64);\n            for _ in 2..=n {\n                let temp = a + b;\n                a = b;\n                b = temp;\n            }\n            b\n        }\n    }\n}",
+    "language": "rust"
+  },
+  {
+    "id": 5,
+    "code": "enum Option<T> {\n    Some(T),\n    None,\n}\n\nimpl<T> Option<T> {\n    fn map<U, F: FnOnce(T) -> U>(self, f: F) -> Option<U> {\n        match self {\n            Option::Some(val) => Option::Some(f(val)),\n            Option::None => Option::None,\n        }\n    }\n    \n    fn unwrap_or(self, default: T) -> T {\n        match self {\n            Option::Some(val) => val,\n            Option::None => default,\n        }\n    }\n}",
+    "language": "rust"
+  },
+  {
+    "id": 6,
+    "code": "fn binary_search(arr: &[i32], target: i32) -> Option<usize> {\n    let mut left = 0;\n    let mut right = arr.len();\n    while left < right {\n        let mid = left + (right - left) / 2;\n        if arr[mid] == target {\n            return Some(mid);\n        } else if arr[mid] < target {\n            left = mid + 1;\n        } else {\n            right = mid;\n        }\n    }\n    None\n}",
+    "language": "rust"
+  },
+  {
+    "id": 7,
+    "code": "struct SafeMutex<T> {\n    data: std::sync::Mutex<T>,\n}\n\nimpl<T> SafeMutex<T> {\n    fn new(data: T) -> Self {\n        SafeMutex {\n            data: std::sync::Mutex::new(data),\n        }\n    }\n    \n    fn get(&self) -> Result<std::sync::MutexGuard<T>, String> {\n        self.data.lock()\n            .map_err(|e| format!(\"Lock poisoned: {:?}\", e))\n    }\n}",
+    "language": "rust"
+  },
+  {
+    "id": 8,
+    "code": "fn merge_sort<T: Ord + Clone>(arr: &[T]) -> Vec<T> {\n    if arr.len() <= 1 {\n        return arr.to_vec();\n    }\n    let mid = arr.len() / 2;\n    let left = merge_sort(&arr[..mid]);\n    let right = merge_sort(&arr[mid..]);\n    merge(&left, &right)\n}\n\nfn merge<T: Ord + Clone>(left: &[T], right: &[T]) -> Vec<T> {\n    let mut result = Vec::with_capacity(left.len() + right.len());\n    let (mut i, mut j) = (0, 0);\n    while i < left.len() && j < right.len() {\n        if left[i] <= right[j] {\n            result.push(left[i].clone());\n            i += 1;\n        } else {\n            result.push(right[j].clone());\n            j += 1;\n        }\n    }\n    result.extend_from_slice(&left[i..]);\n    result.extend_from_slice(&right[j..]);\n    result\n}",
+    "language": "rust"
+  },
+  {
+    "id": 9,
+    "code": "#[derive(Debug)]\nenum Tree<T> {\n    Empty,\n    Node(Box<Tree<T>>, T, Box<Tree<T>>),\n}\n\nimpl<T: Ord> Tree<T> {\n    fn insert(&mut self, value: T) {\n        *self = match self {\n            Tree::Empty => Tree::Node(Box::new(Tree::Empty), value, Box::new(Tree::Empty)),\n            Tree::Node(left, v, right) => {\n                if value < *v {\n                    left.insert(value);\n                } else {\n                    right.insert(value);\n                }\n                Tree::Node(Box::new(*left.clone()), *v, Box::new(*right.clone()))\n            }\n        };\n    }\n}",
+    "language": "rust"
+  },
+  {
+    "id": 10,
+    "code": "fn memoize<F, A, B>(mut f: F) -> impl FnMut(A) -> B\nwhere\n    F: FnMut(A) -> B + 'static,\n    A: std::hash::Hash + Eq + Clone + 'static,\n    B: Clone + 'static,\n{\n    use std::collections::HashMap;\n    let mut cache = HashMap::new();\n    move |arg: A| {\n        cache.entry(arg.clone())\n            .or_insert_with(|| f(arg))\n            .clone()\n    }\n}",
+    "language": "rust"
+  },
+  {
+    "id": 11,
+    "code": "struct RetryError<E> {\n    attempts: usize,\n    last_error: E,\n}\n\nfn retry<F, T, E>(mut f: F, max_attempts: usize) -> Result<T, RetryError<E>>\nwhere\n    F: FnMut() -> Result<T, E>,\n{\n    let mut last_error = None;\n    for attempt in 0..max_attempts {\n        match f() {\n            Ok(result) => return Ok(result),\n            Err(e) => last_error = Some(e),\n        }\n    }\n    Err(RetryError {\n        attempts: max_attempts,\n        last_error: last_error.unwrap(),\n    })\n}",
+    "language": "rust"
+  },
+  {
+    "id": 12,
+    "code": "fn flatten<T: Clone>(nested: &[Vec<T>]) -> Vec<T> {\n    nested.iter()\n        .flat_map(|inner| inner.iter().cloned())\n        .collect()\n}",
+    "language": "rust"
+  },
+  {
+    "id": 13,
+    "code": "trait Drawable {\n    fn draw(&self);\n    fn area(&self) -> f64;\n}\n\nstruct Circle { radius: f64 }\nstruct Rectangle { width: f64, height: f64 }\n\nimpl Drawable for Circle {\n    fn draw(&self) {\n        println!(\"Drawing circle with radius {}\", self.radius);\n    }\n    fn area(&self) -> f64 {\n        std::f64::consts::PI * self.radius * self.radius\n    }\n}\n\nimpl Drawable for Rectangle {\n    fn draw(&self) {\n        println!(\"Drawing rectangle {}x{}\", self.width, self.height);\n    }\n    fn area(&self) -> f64 {\n        self.width * self.height\n    }\n}",
+    "language": "rust"
+  },
+  {
+    "id": 14,
+    "code": "fn group_by<T, K, F>(iter: impl Iterator<Item = T>, key_fn: F) -> std::collections::HashMap<K, Vec<T>>\nwhere\n    K: std::hash::Hash + Eq,\n    F: Fn(&T) -> K,\n{\n    let mut result = std::collections::HashMap::new();\n    for item in iter {\n        let key = key_fn(&item);\n        result.entry(key).or_insert_with(Vec::new).push(item);\n    }\n    result\n}",
+    "language": "rust"
+  },
+  {
+    "id": 15,
+    "code": "use std::time::{Duration, Instant};\n\nfn debounce<F, A>(mut f: F, delay: Duration) -> impl FnMut(A)\nwhere\n    F: FnMut(A) + 'static,\n    A: 'static,\n{\n    let mut last_call: Option<Instant> = None;\n    move |arg: A| {\n        let now = Instant::now();\n        if let Some(last) = last_call {\n            if now.duration_since(last) < delay {\n                return;\n            }\n        }\n        last_call = Some(now);\n        f(arg);\n    }\n}",
+    "language": "rust"
+  }
+]

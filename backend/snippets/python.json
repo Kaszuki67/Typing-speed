@@ -1,0 +1,77 @@
+[
+  {
+    "id": 1,
+    "code": "def quicksort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr) // 2]\n    left = [x for x in arr if x < pivot]\n    middle = [x for x in arr if x == pivot]\n    right = [x for x in arr if x > pivot]\n    return quicksort(left) + middle + quicksort(right)",
+    "language": "python"
+  },
+  {
+    "id": 2,
+    "code": "def decorator(func):\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__}\")\n        result = func(*args, **kwargs)\n        print(f\"Finished {func.__name__}\")\n        return result\n    return wrapper",
+    "language": "python"
+  },
+  {
+    "id": 3,
+    "code": "class ContextManager:\n    def __init__(self, filename, mode):\n        self.filename = filename\n        self.mode = mode\n        self.file = None\n    \n    def __enter__(self):\n        self.file = open(self.filename, self.mode)\n        return self.file\n    \n    def __exit__(self, exc_type, exc_val, exc_tb):\n        if self.file:\n            self.file.close()\n        return False",
+    "language": "python"
+  },
+  {
+    "id": 4,
+    "code": "def memoize(func):\n    cache = {}\n    def wrapper(*args):\n        if args not in cache:\n            cache[args] = func(*args)\n        return cache[args]\n    return wrapper",
+    "language": "python"
+  },
+  {
+    "id": 5,
+    "code": "async def fetch_data(url):\n    import aiohttp\n    async with aiohttp.ClientSession() as session:\n        async with session.get(url) as response:\n            if response.status == 200:\n                return await response.json()\n            raise Exception(f\"HTTP {response.status}\")",
+    "language": "python"
+  },
+  {
+    "id": 6,
+    "code": "def binary_search(arr, target):\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1",
+    "language": "python"
+  },
+  {
+    "id": 7,
+    "code": "class Singleton:\n    _instance = None\n    \n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance",
+    "language": "python"
+  },
+  {
+    "id": 8,
+    "code": "def merge_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    return merge(left, right)\n\ndef merge(left, right):\n    result = []\n    i = j = 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            result.append(left[i])\n            i += 1\n        else:\n            result.append(right[j])\n            j += 1\n    return result + left[i:] + right[j:]",
+    "language": "python"
+  },
+  {
+    "id": 9,
+    "code": "from typing import List, Optional\n\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef inorder_traversal(root: Optional[TreeNode]) -> List[int]:\n    result = []\n    def traverse(node):\n        if node:\n            traverse(node.left)\n            result.append(node.val)\n            traverse(node.right)\n    traverse(root)\n    return result",
+    "language": "python"
+  },
+  {
+    "id": 10,
+    "code": "def fibonacci(n, memo={}):\n    if n in memo:\n        return memo[n]\n    if n <= 2:\n        return 1\n    memo[n] = fibonacci(n-1, memo) + fibonacci(n-2, memo)\n    return memo[n]",
+    "language": "python"
+  },
+  {
+    "id": 11,
+    "code": "class DataClass:\n    def __init__(self, **kwargs):\n        for key, value in kwargs.items():\n            setattr(self, key, value)\n    \n    def __repr__(self):\n        attrs = ', '.join(f'{k}={v}' for k, v in self.__dict__.items())\n        return f'{self.__class__.__name__}({attrs})'",
+    "language": "python"
+  },
+  {
+    "id": 12,
+    "code": "def retry(max_attempts=3, delay=1):\n    def decorator(func):\n        def wrapper(*args, **kwargs):\n            import time\n            last_exception = None\n            for attempt in range(max_attempts):\n                try:\n                    return func(*args, **kwargs)\n                except Exception as e:\n                    last_exception = e\n                    time.sleep(delay * (attempt + 1))\n            raise last_exception\n        return wrapper\n    return decorator",
+    "language": "python"
+  },
+  {
+    "id": 13,
+    "code": "def flatten(nested_list):\n    result = []\n    for item in nested_list:\n        if isinstance(item, list):\n            result.extend(flatten(item))\n        else:\n            result.append(item)\n    return result",
+    "language": "python"
+  },
+  {
+    "id": 14,
+    "code": "from functools import wraps\nimport time\n\ndef timing_decorator(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        start = time.perf_counter()\n        result = func(*args, **kwargs)\n        end = time.perf_counter()\n        print(f\"{func.__name__} took {end - start:.4f}s\")\n        return result\n    return wrapper",
+    "language": "python"
+  },
+  {
+    "id": 15,
+    "code": "def group_by(iterable, key_func):\n    result = {}\n    for item in iterable:\n        key = key_func(item)\n        if key not in result:\n            result[key] = []\n        result[key].append(item)\n    return result",
+    "language": "python"
+  }
+]
