@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Typing Speed Arena</title>
+    <meta
+      name="description"
+      content="A polished typing speed test with WPM, accuracy, timer, progress, and saved results."
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Typing Speed Arena</p>
+          <h1>Train your speed, accuracy, and focus.</h1>
+          <p class="hero-copy">
+            Pick a prompt, start typing, and get instant feedback with backend-scored WPM,
+            accuracy, errors, and saved history.
+          </p>
+        </div>
+
+        <div class="hero-card" aria-label="Current typing status">
+          <span class="pulse"></span>
+          <p>Ready to test?</p>
+          <strong id="statusLabel">Choose a prompt and begin</strong>
+        </div>
+      </section>
+
+      <section class="dashboard" aria-label="Typing statistics">
+        <article class="metric-card">
+          <span>Raw WPM</span>
+          <strong id="rawWpm">0</strong>
+        </article>
+        <article class="metric-card">
+          <span>Net WPM</span>
+          <strong id="netWpm">0</strong>
+        </article>
+        <article class="metric-card">
+          <span>Accuracy</span>
+          <strong id="accuracy">100%</strong>
+        </article>
+        <article class="metric-card">
+          <span>Time</span>
+          <strong id="timer">0s</strong>
+        </article>
+      </section>
+
+      <section class="typing-card">
+        <div class="toolbar">
+          <label for="promptSelect">Prompt</label>
+          <select id="promptSelect"></select>
+          <button id="newPromptButton" type="button">Shuffle</button>
+        </div>
+
+        <p id="promptText" class="prompt-text" aria-live="polite"></p>
+
+        <label class="sr-only" for="typingInput">Typing input</label>
+        <textarea
+          id="typingInput"
+          spellcheck="false"
+          autocomplete="off"
+          placeholder="Start typing here..."
+        ></textarea>
+
+        <div class="progress-track" aria-label="Typing progress">
+          <span id="progressBar"></span>
+        </div>
+
+        <div class="actions">
+          <button id="submitButton" type="button">Finish test</button>
+          <button id="resetButton" type="button" class="secondary">Reset</button>
+        </div>
+      </section>
+
+      <section class="history-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Recent results</p>
+            <h2>Your last attempts</h2>
+          </div>
+          <button id="refreshHistoryButton" type="button" class="secondary">Refresh</button>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+    </main>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
