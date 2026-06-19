@@ -1,0 +1,31 @@
+{
+  "name": "typing-speed",
+  "version": "1.0.0",
+  "description": "A polished typing speed test with frontend UI, backend scoring, and local JSON result storage.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "typing",
+    "wpm",
+    "speed-test",
+    "express",
+    "frontend"
+  ],
+  "author": "Kaszuki67",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {}
+}

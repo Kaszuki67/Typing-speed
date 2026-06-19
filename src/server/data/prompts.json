@@ -1,0 +1,22 @@
+[
+  {
+    "id": "focus-01",
+    "level": "Easy",
+    "text": "Typing fast is useful, but typing clearly is even more important."
+  },
+  {
+    "id": "focus-02",
+    "level": "Medium",
+    "text": "Great programmers improve by testing small ideas, reading errors carefully, and rewriting messy code."
+  },
+  {
+    "id": "focus-03",
+    "level": "Hard",
+    "text": "A beautiful interface feels simple because the hard work is hidden inside careful spacing, useful feedback, and reliable logic."
+  },
+  {
+    "id": "focus-04",
+    "level": "Challenge",
+    "text": "Accuracy, rhythm, posture, and focus work together; speed naturally improves when every keystroke becomes deliberate."
+  }
+]
